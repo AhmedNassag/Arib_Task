@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Dashboard\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class StoreRequest extends FormRequest
 {
@@ -28,7 +29,7 @@ class StoreRequest extends FormRequest
             'last_name'     => 'required|string',
             'email'         => 'required|email|unique:users,email',
             'mobile'        => 'required|numeric|unique:users,mobile',
-            'password'      => 'required|same:confirm-password',
+            'password'      => ['required','same:confirm-password',Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised(),],
             'status'        => 'required|in:0,1',
             'roles_name'    => 'required',
             'salary'        => 'required_if:roles_name,Employee|numeric|gte:0',
