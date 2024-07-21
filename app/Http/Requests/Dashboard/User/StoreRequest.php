@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Dashboard\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,11 +26,10 @@ class StoreRequest extends FormRequest
         return [
             'first_name'    => 'required|string',
             'last_name'     => 'required|string',
-            'email'         => 'required|email|unique:users,email',
-            'mobile'        => 'required|numeric|unique:users,mobile',
-            'password'      => ['required','same:confirm-password',Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised(),],
+            'email'         => ['required','email',\Illuminate\Validation\Rule::unique('users', 'email')->ignore(request()->id)],
+            'mobile'        => ['required','numeric',\Illuminate\Validation\Rule::unique('users', 'mobile')->ignore(request()->id)],
             'status'        => 'required|in:0,1',
-            'roles_name'    => 'required',
+            'roles'         => 'required',
             'salary'        => 'required_if:roles_name,Employee|numeric|gte:0',
             'department_id' => 'required_if:roles_name,Employee|integer|exists:departments,id',
             'photo'         => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,svg',
@@ -54,14 +52,6 @@ class StoreRequest extends FormRequest
             'email.required'            => trans('validation.required'),
             'email.email'               => trans('validation.email'),
             'email.unique'              => trans('validation.unique'),
-            'password.required'         => trans('validation.required'),
-            'password.same'             => trans('validation.same'),
-            'password.min'              => trans('validation.min'),
-            'password.mixedCase'        => trans('validation.mixedCase'),
-            'password.letters'          => trans('validation.letters'),
-            'password.numbers'          => trans('validation.numbers'),
-            'password.symbols'          => trans('validation.symbols'),
-            'password.uncompromised'    => trans('validation.uncompromised'),
             'mobile.required'           => trans('validation.required'),
             'mobile.numeric'            => trans('validation.numeric'),
             'mobile.unique'             => trans('validation.unique'),
