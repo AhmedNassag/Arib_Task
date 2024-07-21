@@ -31,7 +31,7 @@ class UpdateRequest extends FormRequest
             'status'        => 'required|in:0,1',
             'roles'         => 'required',
             'salary'        => 'required_if:roles_name,Employee|numeric|gte:0',
-            'department_id' => 'required_if:roles_name,Employee|integer|exists:users,id',
+            'department_id' => 'required_if:roles_name,Employee|integer|exists:departments,id',
             'photo'         => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,svg',
         ];
     }
@@ -45,9 +45,28 @@ class UpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => trans('validation.required'),
-            'name.string'   => trans('validation.string'),
-            'name.unique'   => trans('validation.unique'),
+            'first_name.required'       => trans('validation.required'),
+            'first_name.string'         => trans('validation.string'),
+            'last_name.required'        => trans('validation.required'),
+            'last_name.string'          => trans('validation.string'),
+            'email.required'            => trans('validation.required'),
+            'email.email'               => trans('validation.email'),
+            'email.unique'              => trans('validation.unique'),
+            'mobile.required'           => trans('validation.required'),
+            'mobile.numeric'            => trans('validation.numeric'),
+            'mobile.unique'             => trans('validation.unique'),
+            'status.required'           => trans('validation.required'),
+            'status.in'                 => trans('validation.in'),
+            'roles.required'            => trans('validation.required'),
+            'salary.required_if'        => trans('validation.required_if'),
+            'salary.numeric'            => trans('validation.numeric'),
+            'salary.gte'                => trans('validation.gte'),
+            'department_id.required_if' => trans('validation.required_if'),
+            'department_id.integer'     => trans('validation.integer'),
+            'department_id.exists'      => trans('validation.exists'),
+            'photo.nullable'            => trans('validation.nullable'),
+            'photo.image'               => trans('validation.image'),
+            'photo.mimes'               => trans('validation.mimes'),
         ];
     }
 }
